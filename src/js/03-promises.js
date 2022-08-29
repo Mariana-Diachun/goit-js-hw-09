@@ -20,27 +20,29 @@ function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
-      
-    })
-    if (shouldResolve) {
-    resolve (`✅ Fulfilled promise ${position} in ${delay}ms`)
-  } else {
-   reject(`❌ Rejected promise ${position} in ${delay}ms`)
-  }
+      if (shouldResolve) {
+        resolve({ position, delay })
+      } else {
+        reject({ position, delay })
+      }
+    }, delay)
   })
-
-
- 
 }
 
-createPromise()
+  function onFormSubmit(evt) {
+    evt.preventDefault();
+    let position = Number(refs.inputDelayEl.value);
+    let delay = Number(refs.inputStepEl.value);
+    let promiseValue = Number(refs.inputAmountEl.value);
+
+    for (let i = 0; i < promiseValue; i += 1) {
+      createPromise()
   .then(({ position, delay }) => {
     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
   })
   .catch(({ position, delay }) => {
     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
   });
-
-  function onFormSubmit(evt) {
-    return refs.inputDelayEl.value;
+    }
+    
 };
