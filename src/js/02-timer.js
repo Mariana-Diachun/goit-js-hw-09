@@ -11,13 +11,6 @@ const refs = {
   spanSeconds: document.querySelector('[data-seconds]'),
 };
 
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-};
-
 let selectedDate = null;
 
 refs.buttonEl.disabled = true;
@@ -45,16 +38,9 @@ function onButtonStartClick(evt) {
       const currentTime = Date.now();
       const deltaTime = selectedDate.getTime() - currentTime;
       const timeComponents = convertMs(deltaTime);
+      updateTimeValue(timeComponents);
       }, 1000);
 }
-
-function updateTimeValue({ days, hours, minutes, seconds }) {
-  refs.spanDays.textContent = addLeadingZero(days);
-  refs.spanHours.textContent = addLeadingZero(hours);
-  refs.spanMinutes.textContent = addLeadingZero(minutes);
-  refs.spanSeconds.textContent = addLeadingZero(seconds);
-}
-// updateTimeValue(convertMs(ms));
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
@@ -71,5 +57,12 @@ function convertMs(ms) {
   const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
+};
+
+function updateTimeValue({ days, hours, minutes, seconds }) {
+  refs.spanDays.textContent = `${days} :`;
+  refs.spanHours.textContent = `${hours} :`;
+  refs.spanMinutes.textContent = `${minutes} :`;
+  refs.spanSeconds.textContent = `${seconds} :`;
 }
 
